@@ -1,0 +1,12 @@
+.snap {
+    display: block;
+    width: 100%;
+    height: 120px;
+}
+
+.ltitle {
+    padding-top: 2vh;
+    text-align: center;
+    font-size: 2vh;
+    font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
