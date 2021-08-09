@@ -1,0 +1,211 @@
+html {
+    display: block;
+}
+
+:root{
+  --c1_light_fill: #A9E3EF;
+  --c1_medium_light_fill: #59C8FF;
+  --c1_medium_dark_fill: #00aaff;
+  --c1_dark_fill: #0090d8;
+  --c1_label_border: #e7f6ff;
+
+  --c2_light_fill: #ff8e90;
+  --c2_medium_light_fill: #ff585b;
+  --c2_medium_dark_fill: #ff0004;
+  --c2_dark_fill: #d90004;
+  --c2_label_border: #ffc6c1;
+
+  --c3_light_fill: #ffffc2;
+  --c3_medium_light_fill: #ffff89;
+  --c3_medium_dark_fill: #ffff00;
+  --c3_dark_fill: #d8d800;
+  --c3_label_border: #8d8b1a;
+
+  --c4_light_fill: #b2fff2;
+  --c4_medium_light_fill: #49ffdf;
+  --c4_medium_dark_fill: #61d4b4;
+  --c4_dark_fill: #00b797;
+  --c4_label_border: #006a63;
+
+  --c5_fill: #d5d5d5;
+  --c5_label_border: #5e5e5e;
+}
+
+  #vis {
+    width: 100%;
+    height: 600px; 
+    margin: 5x 5x 5x 5x;}
+
+  .cell text {
+    cursor: move;
+    font: 10px sans-serif;
+    text-anchor: middle; }
+
+
+  
+  .leafc1_1 text { 
+    fill: var(--c1_label_border);
+  }
+  .leafc1_2 text { 
+    fill: var(--c1_label_border);
+  }      
+  .leafc1_3 text { 
+    fill: var(--c1_label_border);
+  }
+  .leafc1_4 text { 
+    fill: var(--c1_label_border);
+  }
+  
+  .leafc2_1 text { 
+    fill: var(--c2_label_border);
+  }
+  .leafc2_2 text { 
+    fill: var(--c2_label_border);
+  }      
+  .leafc2_3 text { 
+    fill: var(--c2_label_border);
+  }
+  .leafc2_4 text { 
+    fill: var(--c2_label_border);
+  }
+
+  .leafc3_1 text { 
+    fill: var(--c3_label_border);
+  }
+  .leafc3_2 text { 
+    fill: var(--c3_label_border);
+  }      
+  .leafc3_3 text { 
+    fill: var(--c3_label_border);
+  }
+  .leafc3_4 text { 
+    fill: var(--c3_label_border);
+  }
+
+  .leafc4_1 text { 
+    fill: var(--c4_label_border);
+  }
+  .leafc4_2 text { 
+    fill: var(--c4_label_border);
+  }      
+  .leafc4_3 text { 
+    fill: var(--c4_label_border);
+  }        
+  .leafc4_4 text { 
+    fill: var(--c4_label_border);
+  }     
+
+  .leafcu_1 text { 
+    fill: var(--c5_label_border);
+  }
+  .leafcu_2 text { 
+    fill: var(--c5_label_border);
+  }      
+  .leafcu_3 text { 
+    fill: var(--c5_label_border);
+  }  
+  .leafcu_4 text { 
+    fill: var(--c5_label_border);
+  } 
+
+  .leafc1_1 rect{ 
+    stroke: var(--c1_label_border);
+    fill: var(--c1_dark_fill);
+  }
+  
+  .leafc1_2 rect { 
+    stroke: var(--c1_label_border);
+    fill: var(--c1_medium_light_fill);
+  }
+
+  .leafc1_3 rect { 
+    stroke: var(--c1_label_border);
+    fill: var(--c1_medium_dark_fill);
+  }
+
+  .leafc1_4 rect { 
+    stroke: var(--c1_label_border);
+    fill: var(--c1_light_fill);
+  }  
+
+  .leafc2_1 rect { 
+    stroke: var(--c2_label_border);
+    fill: var(--c2_dark_fill);
+  }
+
+  .leafc2_2 rect { 
+    stroke: var(--c2_label_border);
+    fill: var(--c2_medium_light_fill);
+  }
+
+  .leafc2_3 rect { 
+    stroke: var(--c2_label_border);
+    fill: var(--c2_medium_dark_fill);
+  }
+
+  .leafc2_4 rect { 
+    stroke: var(--c2_label_border);
+    fill: var(--c2_light_fill);
+  }
+
+  .leafc3_1 rect { 
+    stroke: var(--c3_label_border);
+    fill: var(--c3_light_fill);
+  }
+
+  .leafc3_2 rect { 
+    stroke: var(--c3_label_border);
+    fill: var(--c3_medium_light_fill);
+  }
+
+  .leafc3_3 rect { 
+    stroke: var(--c3_label_border);
+    fill: var(--c3_medium_dark_fill);
+  }
+
+  .leafc3_4 rect { 
+    stroke: var(--c3_label_border);
+    fill: var(--c3_dark_fill);
+  }
+
+  .leafc4_1 rect { 
+    stroke: var(--c4_label_border);
+    fill: var(--c4_light_fill);
+  }
+
+  .leafc4_2 rect { 
+    stroke: var(--c4_label_border);
+    fill: var(--c4_medium_light_fill);
+  }
+
+  .leafc4_3 rect { 
+    stroke: var(--c4_label_border);
+    fill: var(--c4_medium_dark_fill);
+  }
+
+  .leafc4_4 rect { 
+    stroke: var(--c4_label_border);
+    fill: var(--c4_dark_fill);
+  }
+
+  .leafcu_1 rect { 
+    stroke: var(--c5_label_border);
+    fill: var(--c5_fill);
+  }
+
+  .leafcu_2 rect { 
+    stroke: var(--c5_label_border);
+    fill: var(--c5_fill);
+  }
+
+  .leafcu_3 rect { 
+    stroke: var(--c5_label_border);
+    fill: var(--c5_fill);
+  }
+
+  .leafcu_4 rect { 
+    stroke: var(--c5_label_border);
+    fill: var(--c5_fill);
+  }
+
+  
