@@ -21,7 +21,7 @@
     <script src="protein_cath.js"></script>
     <script>
       (function() {
-        d3.json("protein_cath.json", function(error, json) {
+        d3.json("https://zenodo.org/api/files/c726e038-e9e5-49c0-b16d-db000842ea6c/protein_cath.json", function(error, json) {
 
           var treemap = d3.select("#vis").append("svg")
             .chart("treemap")
