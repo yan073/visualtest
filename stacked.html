@@ -148,9 +148,7 @@
           .selectAll("path")
           .transition().duration(1000)
           .attr("d", area)
-        }
-    
-    
+        }    
     
         //////////
         // HIGHLIGHT GROUP //
@@ -168,38 +166,35 @@
         const noHighlight = function(event,d){
           d3.selectAll(".myArea").style("opacity", 1)
         }
-    
-    
-    
         //////////
         // LEGEND //
         //////////
-    /*
+        const top5 = keys.slice(0, 5);
         // Add one dot in the legend for each name.
         const size = 20
         svg.selectAll("myrect")
-          .data(keys)
+          .data(top5)
           .join("rect")
             .attr("x", 400)
             .attr("y", function(d,i){ return 10 + i*(size+5)}) // 100 is where the first dot appears. 25 is the distance between dots
             .attr("width", size)
             .attr("height", size)
-            .style("fill", function(d){ return color(d)})
+            .style("fill", function(d){ return colormap[d]})
             .on("mouseover", highlight)
             .on("mouseleave", noHighlight)
     
         // Add one dot in the legend for each name.
         svg.selectAll("mylabels")
-          .data(keys)
+          .data(top5)
           .join("text")
             .attr("x", 400 + size*1.2)
             .attr("y", function(d,i){ return 10 + i*(size+5) + (size/2)}) // 100 is where the first dot appears. 25 is the distance between dots
-            .style("fill", function(d){ return color(d)})
+            .style("fill", function(d){ return colormap[d]})
             .text(function(d){ return d})
             .attr("text-anchor", "left")
             .style("alignment-baseline", "middle")
             .on("mouseover", highlight)
             .on("mouseleave", noHighlight)
-    */
+    
     })
     </script>
