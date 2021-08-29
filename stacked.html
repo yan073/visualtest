@@ -1,39 +1,40 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-<!-- modified from https://www.d3-graph-gallery.com/graph/stackedarea_template.html -->        
-<!-- Load d3.js -->
-<script src="https://d3js.org/d3.v6.js"></script>
+<html>
+  <head>
+    <!-- modified from https://www.d3-graph-gallery.com/graph/stackedarea_template.html -->        
+    <meta charset="utf-8">
+    <script src="https://d3js.org/d3.v6.js"></script>
+  </head>
+<body>
 <!-- Create a div where the graph will take place -->
-<div id="my_dataviz"></div>
+  <div id="vis" />
 
-<script>
+  <script>
 
+    // Parse the Data
+    // d3.csv("timeline_chembl.csv").then( function(data) { 
+    const createVizFromCSV = function(data) {
+    
     // set the dimensions and margins of the graph
     const margin = {top: 60, right: 50, bottom: 50, left: 50},
-        width = 1200 - margin.left - margin.right,
-        height = 800 - margin.top - margin.bottom;
+        width = document.body.clientWidth - margin.left - margin.right,
+        height = 600 - margin.top - margin.bottom;
     
     // append the svg object to the body of the page
-    const svg = d3.select("#my_dataviz")
+    const svg = d3.select("#vis")
       .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
       .append("g")
         .attr("transform",
               `translate(${margin.left}, ${margin.top})`);
-    
-    var colormap = {};
-    // Parse the Data
-    d3.csv("timeline_chembl.csv").then( function(data) {
-    
+
       const parseTime = d3.timeParse("%Y-%m-%d");
       data.forEach(function(d) {
         d.date = parseTime(d.date);
       });
 
-      //////////
-      // GENERAL //
-      //////////
+      var colormap = {};
     
       // List of groups = header of the csv files
       const keys = data.columns.slice(1)
@@ -65,7 +66,7 @@
           .attr("text-anchor", "end")
           .attr("x", width)
           .attr("y", height+40 )
-          .text("Time (date)");
+          .text("Time");
     
       // Add Y axis label:
       svg.append("text")
@@ -196,5 +197,38 @@
             .on("mouseover", highlight)
             .on("mouseleave", noHighlight)
     
-    })
+    };
+    d3.csv("timeline_chembl.csv").then( createVizFromCSV );
+        // borrow the code from https://stackoverflow.com/questions/5489946/how-to-wait-for-the-end-of-resize-event-and-only-then-perform-an-action 
+        // to handle multiple resize events. Many thanks!
+        var rtime;
+        var timeout = false;
+        const delta = 200;
+
+        function resizeend() {
+          if (new Date() - rtime < delta) {
+            setTimeout(resizeend, delta);
+          } else {
+            timeout = false;
+            // remove the existing chart.
+            const vis = document.getElementById("vis");
+            if (vis.hasChildNodes()) {
+              vis.innerHTML = '';
+            }
+            // re-create the chart with new dimension.
+            d3.csv("timeline_chembl.csv").then( createVizFromCSV );
+          }               
+        }
+
+        window.onresize = function () {
+          rtime = new Date();
+          if (timeout === false) {
+              timeout = true;
+              setTimeout(resizeend, delta);
+          }
+        };
+
     </script>
+
+</body>
+</html>
