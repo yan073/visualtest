@@ -44,7 +44,7 @@
         colormap[keys[i]] = colors[i % colors.length];
       }
     
-      //stack the data?
+      //stack the data
       const stackedData = d3.stack()
         .keys(keys)
         (data)
@@ -198,7 +198,7 @@
             .on("mouseleave", noHighlight)
     
     };
-    d3.csv("timeline_chembl.csv").then( createVizFromCSV );
+    d3.csv("chem_timeline.csv").then( createVizFromCSV );
         // borrow the code from https://stackoverflow.com/questions/5489946/how-to-wait-for-the-end-of-resize-event-and-only-then-perform-an-action 
         // to handle multiple resize events. Many thanks!
         var rtime;
@@ -216,7 +216,7 @@
               vis.innerHTML = '';
             }
             // re-create the chart with new dimension.
-            d3.csv("timeline_chembl.csv").then( createVizFromCSV );
+            d3.csv("chem_timeline.csv").then( createVizFromCSV );
           }               
         }
 
