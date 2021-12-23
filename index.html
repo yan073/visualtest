@@ -1,51 +1,39 @@
 <!DOCTYPE html>
 <html>
   <head>
-      <!-- http://bl.ocks.org/annaghi/5d24b37ebe077d4e919f -->
     <meta charset="utf-8">
-    <title>Proteins in Trials</title>
-    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/themes/light.css" />
-    <link rel="stylesheet" href="protein.css">
-    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-    <script src="https://rawgit.com/misoproject/d3.chart/master/d3.chart.min.js"></script>
-    <script src="d3.chart.layout.hierarchy.js"></script>
-
+    <title>Tagged Identifiers in Covid-19 Trials</title>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" crossorigin="anonymous"/> 
+    <link href="main.css" rel="stylesheet" type="text/css">
   </head>
+
   <body>
+    <div class="bg-gray-200">
+      <div class="md:w-1/2 mx-auto">
+        <div class="bg-white w-full mb-5">
+          <a href="protein_cath.html"><img src="protein.png" class="snap" ></img></a>
+          <p class="ltitle">Proteins in Trials</p>
+        </div>
+        <div class="row">
+          <div class="col-md-5" style="max-width: 300px;">
+            <div class="row">
+              <a href="protein_cath.html"><img src="protein.png" class="snap" ></img></a>
+            </div>
+            <div class="row my-1">
+              <p class="ltitle">Proteins in Trials</p>
+            </div>
+          </div>
+          <div class="col-md-5"  style="max-width: 300px;">
+            <div class="row">
+              <a href="chemical.html"><img src="chemical.png" class="snap" ></img></a>
+            </div>
+            <div class="row my-1">
+              <p class="ltitle">Chemical in Trials</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <div id="vis"></div>
-
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-    <script src="https://unpkg.com/tippy.js@6"></script>
-    <script src="visual_common.js"></script>
-    <script src="protein_cath.js"></script>
-    <script>
-      (function() {
-        // https://github.com/zenodo/zenodo/issues/1897
-        d3.json("https://zenodo.org/api/files/c726e038-e9e5-49c0-b16d-db000842ea6c/protein_cath.json", function(error, json) {
-
-          var treemap = d3.select("#vis").append("svg")
-            .chart("treemap")
-            .value("size")
-            .sortable("_DESC_")
-            .collapsible();
-
-          treemap.draw(json);
-          tippy('.leaf', {
-            allowHTML: true,
-		        arrow: true,
-            delay: [500, 500],
-            maxWidth: 350,
-		        performance: true,
-            size: 'large',
-            theme:'light',
-            interactive: true, 
-            appendTo: document.body,
-          });
-          
-          set_leaf_color();
-        });
-      }());
-    </script>
   </body>
 </html>

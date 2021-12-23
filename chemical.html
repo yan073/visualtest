@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <!-- http://bl.ocks.org/annaghi/5d24b37ebe077d4e919f -->
+    <meta charset="utf-8">
+    <title>Chemical in Trials</title>
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/themes/light.css" />
+    <link rel="stylesheet" href="chemical.css">
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="https://rawgit.com/misoproject/d3.chart/master/d3.chart.min.js"></script>
+    <script src="d3.treemap.chemical.js"></script>
+    <script src="zenodo_util.js"></script>
+
+  </head>
+  <body>
+
+    <div id="vis"></div>
+
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <script src="https://unpkg.com/treemap-4color@1.0.1/dist/treemap-4color.min.js"></script>
+    <script>
+      (function() {
+        const createMapFromJson = function(json){
+            var treemap = d3.select("#vis").append("svg")
+            .chart("treemap")
+            .value("size")
+            .sortable("_DESC_")
+            .collapsible();
+
+            treemap.draw(json);
+            tippy('.leaf', {
+              allowHTML: true,
+              arrow: true,
+              delay: [500, 0],
+              maxWidth: 500,
+              performance: true,
+              size: 'large',
+              theme:'light',
+              interactive: true, 
+              appendTo: document.body,
+              placement: 'bottom',
+            });
+            setLeavesColor(function (root){
+              return root.firstElementChild.getBoundingClientRect();
+            });
+        };
+        
+        const createChart = function() {
+          query_zenodo_json_file("5209552", "chem_cluster.json", (error, json) => createMapFromJson(json));
+        };
+
+        createChart();
+
+        // borrow the code from https://stackoverflow.com/questions/5489946/how-to-wait-for-the-end-of-resize-event-and-only-then-perform-an-action 
+        // to handle multiple resize events. Many thanks!
+        var rtime;
+        var timeout = false;
+        const delta = 200;
+
+        function resizeend() {
+          if (new Date() - rtime < delta) {
+            setTimeout(resizeend, delta);
+          } else {
+            timeout = false;
+            // remove the existing chart.
+            const vis = document.getElementById("vis");
+            if (vis.hasChildNodes()) {
+              vis.removeChild(vis.childNodes[0]);
+            }
+            // re-create the chart with new dimension.
+            createChart();
+          }               
+        }
+
+        window.onresize = function () {
+          rtime = new Date();
+          if (timeout === false) {
+              timeout = true;
+              setTimeout(resizeend, delta);
+          }
+        };
+      }());
+    </script>
+  </body>
+</html>
