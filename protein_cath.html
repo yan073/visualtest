@@ -40,6 +40,12 @@
             theme:'light',
             interactive: true, 
             appendTo: document.body,
+            content(leaf) {
+              return get_leaf_tooltip(leaf);
+            },
+            onShow(instance) {
+              generate_leaf_tooltip(instance);
+            }
           });
           
           set_leaf_color();

@@ -1,5 +1,5 @@
 /*!
- * d3.chart.layout.hierarchy - v0.3.8
+ * d3.treemap.chemical - v0.1
  * https://github.com/annaghi/d3.chart.layout.hierarchy/
  * 
  * Copyright (c) 2015 Anna Bansaghi <anna.bansaghi@mamikon.net> (http://mamikon.net)
@@ -1087,29 +1087,28 @@ d3.chart("hierarchy").extend("treemap", {
 
       events: {
         "enter": function() {
-          //this.classed( "leaf", function(d) { return d.isLeaf; });
           this.attr("class", function(d) { 
             var classvar = "cell";
             if (d.isLeaf){ 
-              classvar = classvar + " leaf " + chart.getLeafClass(d);
+              classvar = classvar + " leaf"; 
             }
-            return classvar; });
-          this.attr("level2", function(d) { 
-            if (d.isLeaf) {
-              let cath = d.parent.name;
-              if (cath.length > 2) {
-                let index = cath.indexOf('.', 2);
-                if(index > 0) {
-                  return cath.substring(0, index);
-                }      
-              }
-            }
-            return null;
+            return classvar; 
           });
-          this.attr("data-trials", d=> JSON.stringify(d.trials));
-          this.attr("data-cath", d=> {if (d.isLeaf) return d.parent.name; return '';});
-          this.attr("data-name", d=> d.name);
+          
+          this.attr("data-cluster", function(d) { 
+              if (d.isLeaf) {
+                return d.parent.name;
+              }
+              return null;
+          });
+  
           this.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+          this.attr("data-name", d=> d.name);
+          this.attr("data-chembl", d=> d.chembl);
+          this.attr("data-pubchem", d=> d.pubchem);
+          this.attr("data-trials", d=> JSON.stringify(d.trials));
+
+          //this.attr("data-tippy-content", d => d.isLeaf ? d.tooltip : null);
           
           this.append("rect")
             .attr("width", function(d) { return d.dx; })
@@ -1119,17 +1118,20 @@ d3.chart("hierarchy").extend("treemap", {
             .attr("x", function(d) { return d.dx / 2; })
             .attr("y", function(d) { return d.dy / 2; })
             .attr("dy", ".35em")
-            .text(function(d) { return d.children ? null : d[chart.options.name]; }) // order is matter! getComputedTextLength
+            .text(function(d) { 
+              if (d.children) return null;
+              let lname = d[chart.options.name];
+              if (lname === "WHTVZRBIWZFKQO-AWEZNQCLSA-N") {
+                lname = "(S)-chloroquine";
+              }
+              return lname;
+            }) // order is matter! getComputedTextLength
             .style("opacity", function(d) { d.w = this.getComputedTextLength(); return d.dx > d.w ? 1 : 0; });
 
           this.on("click", function(event) { chart.trigger("click:rect", event); });
         },
       }
     });
-  },
-  getLeafClass : function(d) { 
-    let cat = d.parent.name.charAt(0);//'1', '2', '3', '4', 'u'
-    return cat != null ? "leafc" + cat : "";
   },
 
   stringToIntHash: function(str, upperbound, lowerbound) {
@@ -1161,26 +1163,8 @@ d3.chart("hierarchy").extend("treemap", {
         y = d3.scale.linear().range([0, chart.options.height]);
 
     chart.layers.base.on("merge", function() {
-        node = chart.root;
-    
-        chart.off("click:rect").on("click:rect", function(d) { 
-              var targetNode;
-              if (node == d.parent){
-                targetNode = chart.root;
-              }
-              else {
-                if (node == d.parent.parent) {
-                  targetNode = d.parent;
-                }
-                else if (node == d.parent.parent.parent) {
-                  targetNode = d.parent.parent;
-                }
-                else {
-                  targetNode = d.parent.parent.parent;
-                }
-              }
-              collapse(targetNode); 
-          });
+      node = chart.root;
+      chart.off("click:rect").on("click:rect", function(d) { collapse(node == d.parent ? chart.root : d.parent); });
     });
 
     function collapse(d) {

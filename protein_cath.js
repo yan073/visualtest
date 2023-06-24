@@ -4,12 +4,131 @@ var adjacent;
 var colormap;
 var adjacent_colors;
 var colored;
-
+var cath_dict={};
+const leaf_tooltip_map = new WeakMap();
 let num_color_space = 4;
 
 function set_leaf_color() {
     let cats = ["leafc1", "leafc2", "leafc3", "leafc4","leafcu"];
     cats.forEach(c => set_color_for_cat(c));
+}
+
+async function generate_leaf_tooltip(instance) {
+    const leaf = instance.reference;
+    if( leaf_tooltip_map.get(leaf) == null ) {
+        let leaf_colour = get_leaf_colour(leaf.classList);
+        var content = `<p><strong><a href="https://aquaria.app/Human/${leaf.dataset.name}" target="_blank">${leaf.dataset.name}</a></strong></p>`;
+        const trial_ids = JSON.parse(leaf.dataset.trials);
+        const trial_links = `<p><strong>Trials that mention \'${leaf.dataset.name}\'</strong>: ` + get_trial_search(trial_ids) + `</p>`;
+        if (leaf_colour == 'c1' || leaf_colour == 'c2' || leaf_colour == 'c3' || leaf_colour == 'c4') {
+            var leaf_hue = get_leaf_hue(leaf.classList, leaf_colour);
+            var cath_info = []
+            const cath_code = leaf.dataset.cath;
+            let names = cath_dict[cath_code]; 
+            let index = cath_code.indexOf('.');
+            cath_info.push(cath_code.substring(0, index));
+            index = cath_code.indexOf('.', index +1 );
+            cath_info.push(cath_code.substring(0, index));
+            index = cath_code.indexOf('.', index +1 );
+            cath_info.push(cath_code.substring(0, index));
+            cath_info.push(cath_code);
+            if ( names == null) { 
+                const infoprms = cath_info.map(async (c, index) => query_cath_info(c, index + 1));
+                const infoobj = await Promise.all(infoprms);
+                names = infoobj.map( o=> o.name);
+                if (names.length == 4) {
+                    if (names[3] === undefined || names[3] === null || names[3].length ==0) {
+                        names[3] = cath_code; 
+                    }
+                    cath_dict[cath_code] = names;
+                }
+            }
+            if (names.length == 4) {
+                content = get_tooltip_domain(leaf.dataset.name, cath_code, names[3])
+                content += get_tooltip_class(cath_info[0], names[0], leaf_colour)
+                + get_tooltip_architecture(cath_info[1], names[1], leaf_hue)
+                + get_tooltip_topo(cath_info[2], names[2]);
+                cath_dict[cath_code] = names;
+            }
+        }  
+        content += trial_links; 
+        leaf_tooltip_map.set(leaf, content);
+        instance.setContent(content);  
+    }
+}
+
+function get_tooltip_domain(leafname, cath_id, name) {
+    let content = `<p><strong><a href="https://aquaria.app/Human/${leafname}" target="_blank">${leafname}</a>`;
+    return content +  ` domain <a href="http://www.cathdb.info/browse/sunburst?from_cath_id=${cath_id}"  target="_blank">\'${name}\'</a></strong></p>`;
+}
+
+function get_tooltip_class(cath_id, name, leaf_colour) {
+    return `<div><svg width ="10" height="10" class="svglegend tc${leaf_colour}"`
+            + `><rect width = "10" height="10"/></svg>`
+            + `<p><strong>Class: </strong> <a href="http://www.cathdb.info/browse/sunburst?from_cath_id=${cath_id}"  target="_blank">${name}</a></p></div>`;
+}
+
+function get_tooltip_architecture(cath_id, name, leaf_hue) {
+    return `<div><svg width ="10" height="10" class="svglegend ${leaf_hue}"` 
+            + ` ><rect width = "10" height="10" /></svg>`
+            + `<p><strong>Architecture: </strong><a href="http://www.cathdb.info/browse/sunburst?from_cath_id=${cath_id}"  target="_blank">${name}</a></p></div>`;
+}
+
+function get_tooltip_topo(cath_id, name) {
+    return `<p><strong>Topology of this domain: </strong><a href="http://www.cathdb.info/browse/sunburst?from_cath_id=${cath_id}"  target="_blank">${name}</a></p>`;
+}
+
+function get_leaf_tooltip(leaf_element) {
+    const content = leaf_tooltip_map.get(leaf_element);
+    if(content == null) {
+        return 'Loading...';
+    }
+}
+
+async function query_cath_info(cath_id, depth){
+    const url = `https://www.cathdb.info/version/v4_3_0/api/rest/cathtree/from_cath_id_to_depth/${cath_id}/${depth}?content-type=application/json`;
+    const response = await fetch(url);
+    return response.json();
+}
+
+function get_trial_search(trial_ids){
+    const page_size = 50;
+    let total_len = trial_ids.length;
+    let pages = [];
+    let content = ' (';
+    for (let i = 0; i < Math.ceil(total_len/page_size); i++) {
+        let start = i*page_size;
+        pages.push([start, Math.min(start + page_size, total_len)])
+    } 
+    content = ' (';
+    pages.forEach(function(p){
+        if(p[0] > 0){
+            content += ', ';
+        }
+        let tips = trial_ids.slice(p[0], p[1]);
+        content += '<a href="https://clinicaltrials.gov/ct2/results?show_xprt=Y&xprt=' + tips.join('+OR+')
+                + `" target="_blank">${p[0]+1}-${p[1]}</a>`;
+    });
+    return content + ')';
+}
+
+function get_leaf_hue(clist, colour) {
+    const prefix = 'leaf' + colour + '_';
+    const iterator = clist.values();
+    for(let c of iterator) {
+        if (c.startsWith(prefix))
+            return c;
+    }
+    return null;
+}
+
+function get_leaf_colour(clist){
+    if (clist.contains('leafcu')) return 'cu';
+    if (clist.contains('leafc1')) return 'c1';
+    if (clist.contains('leafc2')) return 'c2';
+    if (clist.contains('leafc3')) return 'c3';
+    if (clist.contains('leafc4')) return 'c4';
+    return null;
 }
 
 function set_color_for_cat(cat){
