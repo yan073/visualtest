@@ -11,6 +11,12 @@ let num_color_space = 4;
 function set_leaf_color() {
     let cats = ["leafc1", "leafc2", "leafc3", "leafc4","leafcu"];
     cats.forEach(c => set_color_for_cat(c));
+    let cats3 = [   "leafc1_1", "leafc1_2", "leafc1_3", "leafc1_4",
+                    "leafc2_1", "leafc2_2", "leafc2_3", "leafc2_4",  
+                    "leafc3_1", "leafc3_2", "leafc3_3", "leafc3_4",  
+                    "leafc4_1", "leafc4_2", "leafc4_3", "leafc4_4"  
+                ];
+    cats3.forEach(c => set_color_for_cat_level3(c));
 }
 
 async function generate_leaf_tooltip(instance) {
@@ -129,6 +135,105 @@ function get_leaf_colour(clist){
     if (clist.contains('leafc3')) return 'c3';
     if (clist.contains('leafc4')) return 'c4';
     return null;
+}
+
+function set_color_for_cat_level3(c2) { //"leafc1_1"
+    todo_cells = [];
+    high_priority_todo = [];
+    colormap = {};
+    adjacent_colors = {};
+    colored =[];
+    let leaves = document.getElementsByClassName(c2);
+    if (leaves.length >0) {
+        adjacent = find_adjacents(leaves);
+
+        set_l3_color_to_cell(0, c2, leaves);
+        while( (todo_cells.length >0 || high_priority_todo.length >0)) {
+            let next = high_priority_todo.length >0 ? high_priority_todo.shift() : todo_cells.shift(); 
+            set_l3_color_to_cell(next, c2, leaves)
+        }
+    }
+}
+
+function get_l3_code(node) {
+    let cath_code = node.getAttribute('data-cath'); // "1.10.720.30"
+    return cath_code.substring(0,cath_code.lastIndexOf("."));
+}
+
+function get_cells_in_same_level3(cath_l3, leaves){
+    let samel = [];
+    if (cath_l3 != null && cath_l3.length >0) {
+        for(var i = 0; i< leaves.length; i++) {
+            var nl = get_l3_code(leaves[i]);
+            if (cath_l3 == nl) {
+                samel.push(i);
+            }
+        }
+    }
+    return samel;
+}
+
+function process_neighbor_after_coloring_l3(current, color, cath_l3, leaves){
+    let adjs = adjacent[current];
+    for(var i=0;i<adjs.length;i++) {
+        let neighbor = adjs[i];
+        let elem = leaves[neighbor];
+        var sibl3 = get_l3_code(elem);
+        if (sibl3 != cath_l3) {
+            if (!(sibl3 in adjacent_colors)) {
+                adjacent_colors[sibl3] = [];
+            }
+            if (adjacent_colors[sibl3].indexOf(color) <0) {
+                adjacent_colors[sibl3].push(color);
+            }
+        }
+    }
+
+    for(var i=0;i<adjs.length;i++) {
+        let neighbor = adjs[i];
+        if(colored.indexOf(neighbor) < 0){
+            let elem = leaves[neighbor];
+
+            var sibl3 = get_l3_code(elem);
+            if (adjacent_colors[sibl3].length >= 3) {
+                high_priority_todo.unshift(neighbor);
+            }
+            else if (adjacent_colors[sibl3].length == 2) {
+                if(high_priority_todo.indexOf(neighbor) <0) {
+                    high_priority_todo.push(neighbor);
+                }
+            }
+            else {
+                if (todo_cells.indexOf(neighbor) <0) {
+                    todo_cells.push(neighbor);
+                }
+            }
+        }
+    }
+
+}
+
+function set_l3_color_to_cell(current, cat, leaves){ // 0, 'leafc1_1'
+    if (colored.indexOf(current)<0) {
+        var cath_l3 = get_l3_code(leaves[current])
+        let new_c = get_diff_color(adjacent_colors[cath_l3]);
+        colored.push(current);
+        colormap [current] = new_c;
+        let colorclass = cat + '_' + new_c; // 'leafc1_1_2'
+        leaves[current].classList.add( colorclass );
+        let siblings = get_cells_in_same_level3(cath_l3, leaves);
+        for(var i=0;i<siblings.length;i++){
+            let next = siblings[i];
+            if (next != current) {
+                colormap[next] = new_c;
+                colored.push(next);
+                leaves[next].classList.add( colorclass );
+            }
+        }
+        for(var i=0;i<siblings.length;i++){
+            process_neighbor_after_coloring_l3(siblings[i], new_c, cath_l3, leaves);
+        }
+    }
 }
 
 function set_color_for_cat(cat){
