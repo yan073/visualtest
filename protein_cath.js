@@ -157,7 +157,7 @@ function set_color_for_cat_level3(c2) { //"leafc1_1"
 
 function get_l3_code(node) {
     let cath_code = node.getAttribute('data-cath'); // "1.10.720.30"
-    return cath_code.substring(0,cath_code.lastIndexOf("."));
+    return cath_code.substring(0,cath_code.lastIndexOf(".")); // "1.10.720"
 }
 
 function get_cells_in_same_level3(cath_l3, leaves){

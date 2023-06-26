@@ -1165,6 +1165,11 @@ d3.chart("hierarchy").extend("treemap", {
     
         chart.off("click:rect").on("click:rect", function(d) { 
               var targetNode;
+              // turn off extra colouring.
+              let viselem = d3.select("#vis");
+              if (viselem) {
+                viselem.attr("class", "")
+              }
               if (node == d.parent){
                 targetNode = chart.root;
               }
@@ -1177,6 +1182,10 @@ d3.chart("hierarchy").extend("treemap", {
                 }
                 else {
                   targetNode = d.parent.parent.parent;
+                  let viselem = d3.select("#vis");
+                  if (viselem) {
+                    viselem.attr("class", "collapse3")
+                  }
                 }
               }
               collapse(targetNode); 

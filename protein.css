@@ -236,3 +236,227 @@ p {
     float:left; 
     margin-right: 8px;
   }
+  
+  #vis.collapse3 .leafc1_1_1 rect{ 
+    fill: var(--c1_dark_fill);
+  }
+
+  #vis.collapse3 .leafc1_1_2 rect{ 
+    fill: var(--c1_medium_light_fill);
+  }
+  #vis.collapse3 .leafc1_1_3 rect{ 
+    fill: var(--c1_medium_dark_fill);
+  }
+  #vis.collapse3 .leafc1_1_4 rect{ 
+    fill: var(--c1_light_fill);
+  }
+  
+  #vis.collapse3 .leafc1_2_1 rect{ 
+    fill: var(--c1_dark_fill);
+  }
+
+  #vis.collapse3 .leafc1_2_2 rect{ 
+    fill: var(--c1_medium_light_fill);
+  }
+  #vis.collapse3 .leafc1_2_3 rect{ 
+    fill: var(--c1_medium_dark_fill);
+  }
+  #vis.collapse3 .leafc1_2_4 rect{ 
+    fill: var(--c1_light_fill);
+  }
+
+  #vis.collapse3 .leafc1_3_1 rect{ 
+    fill: var(--c1_dark_fill);
+  }
+
+  #vis.collapse3 .leafc1_3_2 rect{ 
+    fill: var(--c1_medium_light_fill);
+  }
+  #vis.collapse3 .leafc1_3_3 rect{ 
+    fill: var(--c1_medium_dark_fill);
+  }
+  #vis.collapse3 .leafc1_3_4 rect{ 
+    fill: var(--c1_light_fill);
+  }
+
+  #vis.collapse3 .leafc1_4_1 rect{ 
+    fill: var(--c1_dark_fill);
+  }
+
+  #vis.collapse3 .leafc1_4_2 rect{ 
+    fill: var(--c1_medium_light_fill);
+  }
+  #vis.collapse3 .leafc1_4_3 rect{ 
+    fill: var(--c1_medium_dark_fill);
+  }
+  #vis.collapse3 .leafc1_4_4 rect{ 
+    fill: var(--c1_light_fill);
+  }
+
+  #vis.collapse3 .leafc2_1_1 rect{ 
+    fill: var(--c2_dark_fill);
+  }
+
+  #vis.collapse3 .leafc2_1_2 rect{ 
+    fill: var(--c2_medium_light_fill);
+  }
+  #vis.collapse3 .leafc2_1_3 rect{ 
+    fill: var(--c2_medium_dark_fill);
+  }
+  #vis.collapse3 .leafc2_1_4 rect{ 
+    fill: var(--c2_light_fill);
+  }
+  
+  #vis.collapse3 .leafc2_2_1 rect{ 
+    fill: var(--c2_dark_fill);
+  }
+
+  #vis.collapse3 .leafc2_2_2 rect{ 
+    fill: var(--c2_medium_light_fill);
+  }
+  #vis.collapse3 .leafc2_2_3 rect{ 
+    fill: var(--c2_medium_dark_fill);
+  }
+  #vis.collapse3 .leafc2_2_4 rect{ 
+    fill: var(--c2_light_fill);
+  }
+
+  #vis.collapse3 .leafc2_3_1 rect{ 
+    fill: var(--c2_dark_fill);
+  }
+
+  #vis.collapse3 .leafc2_3_2 rect{ 
+    fill: var(--c2_medium_light_fill);
+  }
+  #vis.collapse3 .leafc2_3_3 rect{ 
+    fill: var(--c2_medium_dark_fill);
+  }
+  #vis.collapse3 .leafc2_3_4 rect{ 
+    fill: var(--c2_light_fill);
+  }
+
+  #vis.collapse3 .leafc2_4_1 rect{ 
+    fill: var(--c2_dark_fill);
+  }
+
+  #vis.collapse3 .leafc2_4_2 rect{ 
+    fill: var(--c2_medium_light_fill);
+  }
+  #vis.collapse3 .leafc2_4_3 rect{ 
+    fill: var(--c2_medium_dark_fill);
+  }
+  #vis.collapse3 .leafc2_4_4 rect{ 
+    fill: var(--c2_light_fill);
+  }
+
+  #vis.collapse3 .leafc3_1_1 rect{ 
+    fill: var(--c3_dark_fill);
+  }
+
+  #vis.collapse3 .leafc3_1_2 rect{ 
+    fill: var(--c3_medium_light_fill);
+  }
+  #vis.collapse3 .leafc3_1_3 rect{ 
+    fill: var(--c3_medium_dark_fill);
+  }
+  #vis.collapse3 .leafc3_1_4 rect{ 
+    fill: var(--c3_light_fill);
+  }
+  
+  #vis.collapse3 .leafc3_2_1 rect{ 
+    fill: var(--c3_dark_fill);
+  }
+
+  #vis.collapse3 .leafc3_2_2 rect{ 
+    fill: var(--c3_medium_light_fill);
+  }
+  #vis.collapse3 .leafc3_2_3 rect{ 
+    fill: var(--c3_medium_dark_fill);
+  }
+  #vis.collapse3 .leafc3_2_4 rect{ 
+    fill: var(--c3_light_fill);
+  }
+
+  #vis.collapse3 .leafc3_3_1 rect{ 
+    fill: var(--c3_dark_fill);
+  }
+
+  #vis.collapse3 .leafc3_3_2 rect{ 
+    fill: var(--c3_medium_light_fill);
+  }
+  #vis.collapse3 .leafc3_3_3 rect{ 
+    fill: var(--c3_medium_dark_fill);
+  }
+  #vis.collapse3 .leafc3_3_4 rect{ 
+    fill: var(--c3_light_fill);
+  }
+
+  #vis.collapse3 .leafc3_4_1 rect{ 
+    fill: var(--c3_dark_fill);
+  }
+
+  #vis.collapse3 .leafc3_4_2 rect{ 
+    fill: var(--c3_medium_light_fill);
+  }
+  #vis.collapse3 .leafc3_4_3 rect{ 
+    fill: var(--c3_medium_dark_fill);
+  }
+  #vis.collapse3 .leafc3_4_4 rect{ 
+    fill: var(--c3_light_fill);
+  }
+
+  #vis.collapse3 .leafc4_4_1 rect{ 
+    fill: var(--c4_dark_fill);
+  }
+
+  #vis.collapse3 .leafc4_4_2 rect{ 
+    fill: var(--c4_medium_light_fill);
+  }
+  #vis.collapse3 .leafc4_4_3 rect{ 
+    fill: var(--c4_medium_dark_fill);
+  }
+  #vis.collapse3 .leafc4_4_4 rect{ 
+    fill: var(--c4_light_fill);
+  }
+  
+  #vis.collapse3 .leafc4_2_1 rect{ 
+    fill: var(--c4_dark_fill);
+  }
+
+  #vis.collapse3 .leafc4_2_2 rect{ 
+    fill: var(--c4_medium_light_fill);
+  }
+  #vis.collapse3 .leafc4_2_3 rect{ 
+    fill: var(--c4_medium_dark_fill);
+  }
+  #vis.collapse3 .leafc4_2_4 rect{ 
+    fill: var(--c4_light_fill);
+  }
+
+  #vis.collapse3 .leafc4_3_1 rect{ 
+    fill: var(--c4_dark_fill);
+  }
+
+  #vis.collapse3 .leafc4_3_2 rect{ 
+    fill: var(--c4_medium_light_fill);
+  }
+  #vis.collapse3 .leafc4_3_3 rect{ 
+    fill: var(--c4_medium_dark_fill);
+  }
+  #vis.collapse3 .leafc4_3_4 rect{ 
+    fill: var(--c4_light_fill);
+  }
+
+  #vis.collapse3 .leafc4_1_1 rect{ 
+    fill: var(--c4_dark_fill);
+  }
+
+  #vis.collapse3 .leafc4_1_2 rect{ 
+    fill: var(--c4_medium_light_fill);
+  }
+  #vis.collapse3 .leafc4_1_3 rect{ 
+    fill: var(--c4_medium_dark_fill);
+  }
+  #vis.collapse3 .leafc4_1_4 rect{ 
+    fill: var(--c4_light_fill);
+  }
