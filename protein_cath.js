@@ -17,6 +17,15 @@ function set_leaf_color() {
                     "leafc4_1", "leafc4_2", "leafc4_3", "leafc4_4"  
                 ];
     cats3.forEach(c => set_color_for_cat_level3(c));
+    for(let m=1; m<5; m++) {
+        let name1 = 'leafc' + m + '_' ;  
+        for(let n=1; n<5; n++) {
+            let name2 = name1 + n + '_';
+            for(let p=1; p<5; p++) {
+                    set_color_for_cat_level4(name2 + p)
+            }
+        }
+    }
 }
 
 async function generate_leaf_tooltip(instance) {
@@ -137,6 +146,24 @@ function get_leaf_colour(clist){
     return null;
 }
 
+function set_color_for_cat_level4(c3) { //"leafc1_2_3"
+    todo_cells = [];
+    high_priority_todo = [];
+    colormap = {};
+    adjacent_colors = {};
+    colored =[];
+    let leaves = document.getElementsByClassName(c3);
+    if (leaves.length >1) {
+        adjacent = find_adjacents(leaves);
+
+        set_l4_color_to_cell(0, c3, leaves);
+        while( (todo_cells.length >0 || high_priority_todo.length >0)) {
+            let next = high_priority_todo.length >0 ? high_priority_todo.shift() : todo_cells.shift(); 
+            set_l4_color_to_cell(next, c3, leaves)
+        }
+    }
+}
+
 function set_color_for_cat_level3(c2) { //"leafc1_1"
     todo_cells = [];
     high_priority_todo = [];
@@ -144,7 +171,7 @@ function set_color_for_cat_level3(c2) { //"leafc1_1"
     adjacent_colors = {};
     colored =[];
     let leaves = document.getElementsByClassName(c2);
-    if (leaves.length >0) {
+    if (leaves.length >1) {
         adjacent = find_adjacents(leaves);
 
         set_l3_color_to_cell(0, c2, leaves);
@@ -160,6 +187,10 @@ function get_l3_code(node) {
     return cath_code.substring(0,cath_code.lastIndexOf(".")); // "1.10.720"
 }
 
+function get_l4_code(node) {
+    return node.getAttribute('data-cath'); // "1.10.720.30"
+}
+
 function get_cells_in_same_level3(cath_l3, leaves){
     let samel = [];
     if (cath_l3 != null && cath_l3.length >0) {
@@ -171,6 +202,46 @@ function get_cells_in_same_level3(cath_l3, leaves){
         }
     }
     return samel;
+}
+
+function process_neighbor_after_coloring_l4(current, color, cath_l4, leaves){
+    let adjs = adjacent[current];
+    for(var i=0;i<adjs.length;i++) {
+        let neighbor = adjs[i];
+        let elem = leaves[neighbor];
+        var sibl3 = get_l4_code(elem);
+        if (sibl3 != cath_l4) {
+            if (!(sibl3 in adjacent_colors)) {
+                adjacent_colors[sibl3] = [];
+            }
+            if (adjacent_colors[sibl3].indexOf(color) <0) {
+                adjacent_colors[sibl3].push(color);
+            }
+        }
+    }
+
+    for(var i=0;i<adjs.length;i++) {
+        let neighbor = adjs[i];
+        if(colored.indexOf(neighbor) < 0){
+            let elem = leaves[neighbor];
+
+            var sibl3 = get_l4_code(elem);
+            if (adjacent_colors[sibl3].length >= 3) {
+                high_priority_todo.unshift(neighbor);
+            }
+            else if (adjacent_colors[sibl3].length == 2) {
+                if(high_priority_todo.indexOf(neighbor) <0) {
+                    high_priority_todo.push(neighbor);
+                }
+            }
+            else {
+                if (todo_cells.indexOf(neighbor) <0) {
+                    todo_cells.push(neighbor);
+                }
+            }
+        }
+    }
+
 }
 
 function process_neighbor_after_coloring_l3(current, color, cath_l3, leaves){
@@ -211,6 +282,42 @@ function process_neighbor_after_coloring_l3(current, color, cath_l3, leaves){
         }
     }
 
+}
+
+function get_cells_in_same_level4(cath_l4, leaves){
+    let samel = [];
+    if (cath_l4 != null && cath_l4.length >0) {
+        for(var i = 0; i< leaves.length; i++) {
+            var nl = get_l4_code(leaves[i]);
+            if (cath_l4 == nl) {
+                samel.push(i);
+            }
+        }
+    }
+    return samel;
+}
+
+function set_l4_color_to_cell(current, cat, leaves){ // 0, 'leafc1_2_3'
+    if (colored.indexOf(current)<0) {
+        var cath_l4 = get_l4_code(leaves[current])
+        let new_c = get_diff_color(adjacent_colors[cath_l4]);
+        colored.push(current);
+        colormap [current] = new_c;
+        let colorclass = cat.substring(0, 8) + 'A' + new_c; // 'leafc1_1_2'
+        leaves[current].classList.add( colorclass );
+        let siblings = get_cells_in_same_level4(cath_l4, leaves);
+        for(var i=0;i<siblings.length;i++){
+            let next = siblings[i];
+            if (next != current) {
+                colormap[next] = new_c;
+                colored.push(next);
+                leaves[next].classList.add( colorclass );
+            }
+        }
+        for(var i=0;i<siblings.length;i++){
+            process_neighbor_after_coloring_l4(siblings[i], new_c, cath_l4, leaves);
+        }
+    }
 }
 
 function set_l3_color_to_cell(current, cat, leaves){ // 0, 'leafc1_1'
