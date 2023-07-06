@@ -1176,6 +1176,10 @@ d3.chart("hierarchy").extend("treemap", {
               else {
                 if (node == d.parent.parent) {
                   targetNode = d.parent;
+                  let viselem = d3.select("#vis");
+                  if (viselem) {
+                    viselem.attr("class", "collapse4")
+                  }
                 }
                 else if (node == d.parent.parent.parent) {
                   targetNode = d.parent.parent;
@@ -1184,12 +1188,15 @@ d3.chart("hierarchy").extend("treemap", {
                     viselem.attr("class", "collapse4")
                   }
                 }
-                else {
+                else if (node == d.parent.parent.parent.parent) {
                   targetNode = d.parent.parent.parent;
                   let viselem = d3.select("#vis");
                   if (viselem) {
                     viselem.attr("class", "collapse3")
                   }
+                }
+                else {
+                  targetNode = d.parent.parent.parent.parent;
                 }
               }
               collapse(targetNode); 
